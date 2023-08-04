@@ -5,13 +5,12 @@ import asyncio
 
 
 class Roles(commands.Cog):
-    allowed_reactions = {
-        "👍": "Thumbs up",
-        "👎": "thumbs down",
-        "😀": "smile face",
-    }
-    role_message_id = None
+    # Hardcoded values
     guild_id = 1136642484697583667
+
+    # Variables
+    allowed_roles = {}
+    role_message_id = None
 
     def __init__(self, client: commands.Bot):
         self.client = client
@@ -20,9 +19,71 @@ class Roles(commands.Cog):
     async def on_ready(self):
         print("Roles cog is ready")
 
+    @app_commands.command(name="add_role", description="Add role for auto role message")
+    @app_commands.guilds(1136642484697583667)
+    async def add_role(self, interaction: discord.Interaction, role_name: str, role_emoji: str):
+        """
+        Add a role to the auto role message
+        :param interaction:
+        :param role_name:
+        :param role_emoji:
+        :return:
+        """
+        # Get guild
+        guild = self.client.get_guild(self.guild_id)
+
+        # Get role
+        role = discord.utils.get(guild.roles, name=role_name)
+
+        # Get message
+        emoji = role_emoji
+
+        # Check if role and emoji exist
+        if role and emoji:
+            self.allowed_roles[role_name] = {
+                "emoji": emoji,
+                "data": role
+            }
+        else:
+            await interaction.response.send_message("Role or emoji not found", ephemeral=True)
+            return
+
+        # Send response
+        await interaction.response.send_message(f"Added role {role_name} with emoji {role_emoji}", ephemeral=True)
+
+    @app_commands.command(name="remove_role", description="Remove role for auto role message")
+    @app_commands.guilds(1136642484697583667)
+    async def remove_role(self, interaction: discord.Interaction, role_name: str):
+        """
+        Remove a role from the auto role message
+        :param interaction:
+        :param role_name:
+        :return:
+        """
+        # Get guild
+        guild = self.client.get_guild(self.guild_id)
+
+        # Get role
+        role = discord.utils.get(guild.roles, name=role_name)
+
+        # Check if role exists
+        if role:
+            del self.allowed_roles[role_name]
+        else:
+            await interaction.response.send_message("Role not found", ephemeral=True)
+            return
+
+        # Send response
+        await interaction.response.send_message(f"Removed role {role_name}", ephemeral=True)
+
     @app_commands.command(name="create_role_message", description="Creates a role message")
     @app_commands.guilds(1136642484697583667)
     async def roles_func(self, interaction: discord.Interaction):
+        """
+        Creates a role message based on roles given by the user
+        :param interaction:
+        :return:
+        """
         # Create message
         await interaction.response.send_message("React to this message to get your roles!")
 
@@ -33,14 +94,15 @@ class Roles(commands.Cog):
         embed = discord.Embed(title="React to this message to get your roles!")
 
         # Add emojis to the embed
-        for emoji, emoji_name in self.allowed_reactions.items():
-            embed.add_field(name=emoji_name, value=emoji)
+        for emoji_name, data in self.allowed_roles.items():
+            embed.add_field(name=emoji_name, value=data["emoji"])
 
         # Add embed to the message
         await message.edit(embed=embed)
 
         # Add emojis to the message
-        for emoji in self.allowed_reactions:
+        for key, value in self.allowed_roles.items():
+            emoji = value["emoji"]
             await message.add_reaction(emoji)
 
         # Save message ID
@@ -74,7 +136,8 @@ class Roles(commands.Cog):
             return
 
         # Check that emoji is within allowed
-        if payload.emoji.name not in self.allowed_reactions.keys():
+        allowed_emojis = [data["emoji"] for data in self.allowed_roles.values()]
+        if payload.emoji.name not in allowed_emojis:
             print("Emoji not allowed")
             return
 
@@ -108,7 +171,8 @@ class Roles(commands.Cog):
             return
 
         # Check that emoji is within allowed
-        if payload.emoji.name not in self.allowed_reactions.keys():
+        allowed_emojis = [data["emoji"] for data in self.allowed_roles.values()]
+        if payload.emoji.name not in allowed_emojis:
             return
 
         print(f"Removing role {payload.emoji.name}")
