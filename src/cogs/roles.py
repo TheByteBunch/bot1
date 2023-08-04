@@ -195,7 +195,7 @@ class Roles(commands.Cog):
             if v["emoji"] == payload.emoji.name:
                 role_name = k
 
-        # Adding the role
+        # Removing a role
         role = discord.utils.get(guild.roles, name=role_name)
         member = guild.get_member(payload.user_id)
         await member.remove_roles(role)
