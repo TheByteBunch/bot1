@@ -1,12 +1,18 @@
 import discord
 from discord.ext import commands
 from discord import app_commands
-import asyncio
+from configparser import ConfigParser
+
+
+def get_guild_id():
+    config = ConfigParser()
+    config.read("../config.ini")
+    return int(config["DEV"]["Guild_id"])
 
 
 class Roles(commands.Cog):
-    # Hardcoded values
-    guild_id = 1136642484697583667
+    # Config
+    guild_id = get_guild_id()
 
     # Variables
     allowed_roles = {}
@@ -20,7 +26,7 @@ class Roles(commands.Cog):
         print("Roles cog is ready")
 
     @app_commands.command(name="add_role", description="Add role for auto role message")
-    @app_commands.guilds(1136642484697583667)
+    @app_commands.guilds(guild_id)
     async def add_role(self, interaction: discord.Interaction, role_name: str, role_emoji: str):
         """
         Add a role to the auto role message
@@ -52,7 +58,7 @@ class Roles(commands.Cog):
         await interaction.response.send_message(f"Added role {role_name} with emoji {role_emoji}", ephemeral=True)
 
     @app_commands.command(name="remove_role", description="Remove role for auto role message")
-    @app_commands.guilds(1136642484697583667)
+    @app_commands.guilds(guild_id)
     async def remove_role(self, interaction: discord.Interaction, role_name: str):
         """
         Remove a role from the auto role message
@@ -77,7 +83,7 @@ class Roles(commands.Cog):
         await interaction.response.send_message(f"Removed role {role_name}", ephemeral=True)
 
     @app_commands.command(name="create_role_message", description="Creates a role message")
-    @app_commands.guilds(1136642484697583667)
+    @app_commands.guilds(guild_id)
     async def roles_func(self, interaction: discord.Interaction):
         """
         Creates a role message based on roles given by the user

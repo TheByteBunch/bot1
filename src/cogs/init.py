@@ -15,7 +15,7 @@ def get_user_id():
 
 
 class Init(commands.Cog):
-    # Hardcoded values
+    # Config
     guild = get_guild_id()
     user_id = get_user_id()
 

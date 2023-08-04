@@ -2,11 +2,18 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 from table2ascii import table2ascii as t2a, PresetStyle
+from configparser import ConfigParser
+
+
+def get_guild_id():
+    config = ConfigParser()
+    config.read("../config.ini")
+    return int(config["DEV"]["Guild_id"])
 
 
 class Tablebot(commands.Cog):
-    # Hardcoded values
-    guild_id = 1136642484697583667
+    # Config
+    guild_id = get_guild_id()
 
     # Variables
     table_info = {
