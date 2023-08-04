@@ -1,2 +1,54 @@
-# bot1
-Our 1-index bot
+# Discord bot functions
+
+## Table of Contents
+
+1. Role bot
+2. Table bot
+3. Event bot
+4. Git bot
+
+
+## Role bot
+
+### Description
+
+This bot is used to manage roles on the server. It can add and remove roles from users based on reactions.
+
+### Features
+
+- Admin can call the bot to create new message of roles that users can react to (with `/create_role_message`)
+- Admin can add new role to the message (with `/add_role`)
+- Admin can remove role from the message (with `/remove_role`)
+- Users can react to the message to get the role
+- Users can remove the role by removing their reaction
+
+### TODO
+
+- [x] Create new role message
+- [x] Add role based on reaction
+- [x] Remove role based on reaction
+- [x] Edit role message
+- [x] Make code more clean with comments and docstrings
+- [x] Move code to separate files
+
+
+## Table bot
+
+### Description
+
+This bot is used to manage tables on the server. It can create new tables and add users to them with information.
+
+### Features
+
+- Admin can call the bot to create new table (with `/create_member_table`)
+- Admin can add users info to the table (with `/add_body`)
+- Admin can add headers to the table (with `/remove_header`)
+
+### TODO
+
+- [x] Create new table
+- [x] Add user info to table
+- [x] Add headers to table
+- [ ] Remove user from table
+- [ ] Remove headers from table
+- [ ] Multiple tables
