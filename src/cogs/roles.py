@@ -149,8 +149,14 @@ class Roles(commands.Cog):
 
         print(f"Adding role {payload.emoji.name}")
 
+        # Get role name
+        role_name = None
+        for k, v in self.allowed_roles.items():
+            if v["emoji"] == payload.emoji.name:
+                role_name = k
+
         # Adding the role
-        role = discord.utils.get(guild.roles, name=self.allowed_reactions[payload.emoji.name])
+        role = discord.utils.get(guild.roles, name=role_name)
         member = guild.get_member(payload.user_id)
 
         await member.add_roles(role, reason="Reaction role")
@@ -183,8 +189,14 @@ class Roles(commands.Cog):
 
         print(f"Removing role {payload.emoji.name}")
 
+        # Get role name
+        role_name = None
+        for k, v in self.allowed_roles.items():
+            if v["emoji"] == payload.emoji.name:
+                role_name = k
+
         # Adding the role
-        role = discord.utils.get(guild.roles, name=self.allowed_reactions[payload.emoji.name])
+        role = discord.utils.get(guild.roles, name=role_name)
         member = guild.get_member(payload.user_id)
         await member.remove_roles(role)
 
