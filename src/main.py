@@ -14,7 +14,6 @@ intents.message_content = True
 intents.reactions = True
 
 # Define client
-# client = discord.Client(intents=intents)
 client = commands.Bot(command_prefix="/", intents=intents)
 
 
