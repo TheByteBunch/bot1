@@ -20,7 +20,7 @@ This is a Discord bot for and by The Byte Bunch. It will be deployed in that Dis
 - Setup up credentials and configuration
   - `cp .env.example .env`
   - Edit `.env` to include your real Discord bot token
-  - `cp config.ini.example cinfog.ini`
+  - `cp config.ini.example config.ini`
   - Edit `config.ini` to contain your Guild_id, Channel_id, and User_id
   - Edit `config.ini` to set feature flags to `1` for the features you would like to use
 - Run the bot
