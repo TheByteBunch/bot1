@@ -15,8 +15,7 @@ def create_cog_file(cog_name: str) -> None:
     # Create the cog file
     with open(f"../cogs/{cog_name}.py", "w") as cog_file:
         # Write the default structure
-        cog_file.write(f"""
-import discord
+        cog_file.write(f"""import discord
 from discord.ext import commands
 from discord import app_commands
 
