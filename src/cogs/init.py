@@ -2,22 +2,13 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 from configparser import ConfigParser
-
-def get_guild_id():
-    config = ConfigParser()
-    config.read("../config.ini")
-    return int(config["DEV"]["Guild_id"])
-
-def get_user_id():
-    config = ConfigParser()
-    config.read("../config.ini")
-    return int(config["DEV"]["User_id"])
+import utils.basic_utils
 
 
 class Init(commands.Cog):
     # Config
-    guild = get_guild_id()
-    user_id = get_user_id()
+    guild = utils.basic_utils.get_guild_id()
+    user_id = utils.basic_utils.get_user_id()
 
     def __init__(self, client: commands.Bot):
         self.client = client
