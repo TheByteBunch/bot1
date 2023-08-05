@@ -18,6 +18,7 @@ class Roles(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
+        logging.log('Roles cog is ready')
         print("Roles cog is ready")
 
     @app_commands.command(name="add_role", description="Add role for auto role message")
@@ -36,7 +37,7 @@ class Roles(commands.Cog):
         guild = self.client.get_guild(self.guild_id)
 
         # Get role
-        role = discord.utils.get(guild.roles, name=role_name)
+        role = discord.utils.get(guild.roles, name=role_name).name
 
         # Get message
         emoji = role_emoji
@@ -125,32 +126,31 @@ class Roles(commands.Cog):
 
         # Check that role message has been created
         if self.role_message_id is None:
-            print("No role message ID")
+            logging.warning("No role message ID")
             return
 
         # Check if the message is the target message
         if payload.message_id != self.role_message_id:
-            print("Not the target message")
+            logging.warning("Not the target message")
             return
 
         # Check the guild is equal to the target guild
         guild = self.client.get_guild(payload.guild_id)
         if guild.id != self.guild_id:
-            print("Not the target guild")
+            logging.warning("Not the target guild")
             return
 
         # Check that emoji is within allowed
         allowed_emojis = self.dict_of_role_to_emoji.values()
         # name: The custom emoji name, if applicable, or the unicode codepoint of the non-custom emoji.
         if payload.emoji.name not in allowed_emojis:
-            print("Emoji not allowed")
+            logging.warning("Emoji not allowed")
             return
 
-        print(f"Adding role {payload.emoji.name}")
+        logging.info(f"Adding role {payload.emoji.name}")
 
         # Get role name
         # role_name = None
-        print('self.dict_of_role_to_emoji', self.dict_of_role_to_emoji)
         role_name_to_apply = ''
         for role_name, emoji in self.dict_of_role_to_emoji.items():
             if payload.emoji.name == emoji:
@@ -158,15 +158,7 @@ class Roles(commands.Cog):
                 break  # note to Al1: at least this is on average n/2 (still O(n) though)
         assert role_name_to_apply != '', 'role_name_to_apply should have a non-empty string value'
         # Adding the role
-        print('hello 230947, role_name_to_apply:', role_name_to_apply)
-        print('role_name_to_apply', role_name_to_apply)
-        print('guild', guild)
-        print('guild.roles', guild.roles)
-        print()
         role = discord.utils.get(guild.roles, name=role_name_to_apply)
-        print(role)
-        print(type(role))
-
         member = guild.get_member(payload.user_id)
 
         await member.add_roles(role, reason="Reaction role")
@@ -178,10 +170,6 @@ class Roles(commands.Cog):
         :param payload:
         :return:
         """
-
-        # Make sure that the bot is not reacting to itself
-        if payload.member.bot:
-            return
 
         # Check that role message has been created
         if self.role_message_id is None:
@@ -202,7 +190,7 @@ class Roles(commands.Cog):
         if payload.emoji.name not in allowed_emojis:
             return
 
-        print(f"Removing role {payload.emoji.name}")
+        logging.info(f"Removing role {payload.emoji.name}")
 
         # Get role name
         role_name = None

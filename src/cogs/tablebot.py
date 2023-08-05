@@ -2,18 +2,14 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 from table2ascii import table2ascii as t2a, PresetStyle
-from configparser import ConfigParser
 
+import logging
 
-def get_guild_id():
-    config = ConfigParser()
-    config.read("../config.ini")
-    return int(config["DEV"]["Guild_id"])
-
+from utils import basic_utils
 
 class Tablebot(commands.Cog):
     # Config
-    guild_id = get_guild_id()
+    guild_id = basic_utils.get_guild_id()
 
     # Variables
     table_info = {
@@ -27,6 +23,7 @@ class Tablebot(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         print("Tablebot cog is ready")
+        logging.info('Tablebot cog is ready')
 
     @app_commands.command(name="add_header", description="Add header to table")
     @app_commands.guilds(guild_id)
