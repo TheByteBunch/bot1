@@ -1,18 +1,15 @@
 import discord
 from discord.ext import commands
 from discord import app_commands
-from configparser import ConfigParser
 
+import logging
 
-def get_guild_id():
-    config = ConfigParser()
-    config.read("../config.ini")
-    return int(config["DEV"]["Guild_id"])
+from utils import basic_utils
 
 
 class Ping(commands.Cog):
     # Config
-    guild_id = get_guild_id()
+    guild_id = basic_utils.get_guild_id()
 
     def __init__(self, client: commands.Bot):
         self.client = client
@@ -20,6 +17,7 @@ class Ping(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         print("Ping cog is ready")
+        logging.info("Ping cog is ready")
 
     @app_commands.command(name="ping", description="Returns the latency of the bot")
     @app_commands.guilds(guild_id)

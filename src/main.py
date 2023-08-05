@@ -1,11 +1,20 @@
 import os
 import asyncio
+
+import logging
+
 import discord
 from discord.ext import commands
-from configparser import ConfigParser
 
-# Importing utils
-import utils.basic as basic
+
+from pathlib import Path
+
+from utils import basic_utils
+
+this_file_path = os.path.dirname(__file__)
+repo_root_dir_path = str(Path(this_file_path).resolve().parents[0])
+
+handler = logging.FileHandler(filename=os.sep.join([repo_root_dir_path, 'discord.log']), encoding='utf-8', mode='a')
 
 # Define intents
 intents = discord.Intents.default()
@@ -22,36 +31,24 @@ async def on_ready():
     print("Bot is ready")
 
 
-def parse_feature_flags():
-    """
-    Parse feature flags from the config.ini file
-    :return:
-    """
-    # Create config parser
-    config = ConfigParser()
-    # Read the config file
-    config.read("../config.ini")
-    # Get the feature flags
-    feature_flags = config["FEATURE_FLAGS"]
-
-    # Return the feature flags
-    return feature_flags
-
-
-async def load() -> None:
+async def load_cogs() -> None:
     """
     Loads all the cogs in the cogs folder
     :return: None
     """
     # Getting feature flags
-    feature_flags = parse_feature_flags()
+    feature_flags = basic_utils.parse_feature_flags()
 
     print("#" * 50)
     print(f"[INFO] Loading cogs")
     # Looping through all the files in the cogs folder
-    for filename in os.listdir("cogs"):
+    cogs_dir = os.sep.join([this_file_path, 'cogs'])
+    for filename in os.listdir(cogs_dir):
+
+        if filename.startswith('__'):
+            continue
         # Check if the file is a python file
-        if filename.endswith(".py"):
+        elif filename.endswith(".py"):
             # Get the name of the file
             feature_file_name = filename[:-3]
             # Check if the feature flag is set to 0 if so skip the file
@@ -67,9 +64,10 @@ async def load() -> None:
 async def main():
     async with client:
         # Load all the cogs
-        await load()
+        await load_cogs()
         # Start the bot
-        await client.start(basic.get_secret_token())
+        discord.utils.setup_logging(handler=handler)
+        await client.start(basic_utils.get_secret_token())
 
 
 try:
@@ -77,5 +75,6 @@ try:
 except KeyboardInterrupt:
     print("Exiting")
 except RuntimeError as e:
+    print("Runtime Error:")
     print(e)
-    print("Bot did not start properly")
+
