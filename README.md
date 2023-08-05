@@ -16,11 +16,7 @@ This is a Discord bot for and by The Byte Bunch. It will be deployed in that Dis
   - A server to which you can invite this bot
   - Your bot should be in that server, and should have the following positions: read and write messages, manage roles.
 - clone this repo
-- create and activate virtual environment
-  - `python -m venv venv`
-  -  `source venv/bin/activate`
-- install dependencies
-  - `pip isntall -r requirements.txt`
+- create and activate virtual environment and install pip dependencies
 - Setup up credentials and configuration
   - `cp .env.example .env`
   - Edit `.env` to include your real Discord bot token
