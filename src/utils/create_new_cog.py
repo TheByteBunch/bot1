@@ -26,6 +26,7 @@ from utils import basic_utils
 
 class {cog_name.capitalize()}(commands.Cog):
     
+    # Configs
     guild_id = basic_utils.get_guild_id()
     
     def __init__(self, client):
