@@ -1,14 +1,9 @@
 import os
 import asyncio
-
 import logging
-
 import discord
 from discord.ext import commands
-
-
 from pathlib import Path
-
 from utils import basic_utils
 
 this_file_path = os.path.dirname(__file__)
@@ -77,4 +72,3 @@ except KeyboardInterrupt:
 except RuntimeError as e:
     print("Runtime Error:")
     print(e)
-
