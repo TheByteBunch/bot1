@@ -18,7 +18,7 @@ class Roles(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        logging.log('Roles cog is ready')
+        logging.info('Roles cog is ready')
         print("Roles cog is ready")
 
     @app_commands.command(name="add_role", description="Add role for auto role message")
