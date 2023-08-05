@@ -3,8 +3,8 @@ from discord.ext import commands
 from discord import app_commands
 
 from utils import basic_utils
+
 import logging
-# dict_of_role_to_emoji
 
 class Roles(commands.Cog):
     # Config

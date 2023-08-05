@@ -6,7 +6,6 @@
 - Discord bot functions
 
 
-
 ## Overview
 This is a Discord bot for and by The Byte Bunch. It will be deployed in that Discord server.
 
@@ -18,9 +17,9 @@ This is a Discord bot for and by The Byte Bunch. It will be deployed in that Dis
 - clone this repo
 - create and activate virtual environment and install pip dependencies
 - Setup up credentials and configuration
-  - `cp .env.example .env`
+  - Copy `.env.example` to `.env`
   - Edit `.env` to include your real Discord bot token
-  - `cp config.ini.example config.ini`
+  - Copy `config.ini.example` to `config.ini`
   - Edit `config.ini` to contain your Guild_id, Channel_id, and User_id
   - Edit `config.ini` to set feature flags to `1` for the features you would like to use
 - Run the bot
