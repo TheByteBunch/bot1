@@ -1,25 +1,20 @@
 import discord
 from discord.ext import commands
 from discord import app_commands
-from configparser import ConfigParser
 
-
-def get_guild_id():
-    config = ConfigParser()
-    config.read("../config.ini")
-    return int(config["DEV"]["Guild_id"])
-
+from utils import basic_utils
+import logging
+# dict_of_role_to_emoji
 
 class Roles(commands.Cog):
     # Config
-    guild_id = get_guild_id()
-
-    # Variables
-    allowed_roles = {}
-    role_message_id = None
+    guild_id = basic_utils.get_guild_id()  # this doesn't generalize to multiple servers #todo maybe
 
     def __init__(self, client: commands.Bot):
         self.client = client
+        self.dict_of_role_to_emoji = dict()
+        self.role_message_id = None
+
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -35,6 +30,8 @@ class Roles(commands.Cog):
         :param role_emoji:
         :return:
         """
+        if interaction.guild.id != self.guild_id:
+            return
         # Get guild
         guild = self.client.get_guild(self.guild_id)
 
@@ -46,10 +43,7 @@ class Roles(commands.Cog):
 
         # Check if role and emoji exist
         if role and emoji:
-            self.allowed_roles[role_name] = {
-                "emoji": emoji,
-                "data": role
-            }
+            self.dict_of_role_to_emoji[role] = emoji
         else:
             await interaction.response.send_message("Role or emoji not found", ephemeral=True)
             return
@@ -66,6 +60,8 @@ class Roles(commands.Cog):
         :param role_name:
         :return:
         """
+        if interaction.guild.id != self.guild_id:
+            return
         # Get guild
         guild = self.client.get_guild(self.guild_id)
 
@@ -74,7 +70,7 @@ class Roles(commands.Cog):
 
         # Check if role exists
         if role:
-            del self.allowed_roles[role_name]
+            del self.dict_of_role_to_emoji[role_name]
         else:
             await interaction.response.send_message("Role not found", ephemeral=True)
             return
@@ -84,31 +80,33 @@ class Roles(commands.Cog):
 
     @app_commands.command(name="create_role_message", description="Creates a role message")
     @app_commands.guilds(guild_id)
-    async def roles_func(self, interaction: discord.Interaction):
+    async def create_roles_message(self, interaction: discord.Interaction):
         """
         Creates a role message based on roles given by the user
         :param interaction:
         :return:
         """
+        if interaction.guild.id != self.guild_id:
+            return
         # Create message
         await interaction.response.send_message("React to this message to get your roles!")
 
         # Get latest message ID
+        # todo: is there a more reliable way to do this?
         message = await interaction.channel.fetch_message(interaction.channel.last_message_id)
 
         # Create embed
         embed = discord.Embed(title="React to this message to get your roles!")
 
         # Add emojis to the embed
-        for emoji_name, data in self.allowed_roles.items():
-            embed.add_field(name=emoji_name, value=data["emoji"])
+        for role_name, emoji in self.dict_of_role_to_emoji.items():
+            embed.add_field(name=role_name, value=emoji)
 
         # Add embed to the message
         await message.edit(embed=embed)
 
         # Add emojis to the message
-        for key, value in self.allowed_roles.items():
-            emoji = value["emoji"]
+        for emoji in self.dict_of_role_to_emoji.values():
             await message.add_reaction(emoji)
 
         # Save message ID
@@ -142,7 +140,8 @@ class Roles(commands.Cog):
             return
 
         # Check that emoji is within allowed
-        allowed_emojis = [data["emoji"] for data in self.allowed_roles.values()]
+        allowed_emojis = self.dict_of_role_to_emoji.values()
+        # name: The custom emoji name, if applicable, or the unicode codepoint of the non-custom emoji.
         if payload.emoji.name not in allowed_emojis:
             print("Emoji not allowed")
             return
@@ -150,13 +149,24 @@ class Roles(commands.Cog):
         print(f"Adding role {payload.emoji.name}")
 
         # Get role name
-        role_name = None
-        for k, v in self.allowed_roles.items():
-            if v["emoji"] == payload.emoji.name:
-                role_name = k
-
+        # role_name = None
+        print('self.dict_of_role_to_emoji', self.dict_of_role_to_emoji)
+        role_name_to_apply = ''
+        for role_name, emoji in self.dict_of_role_to_emoji.items():
+            if payload.emoji.name == emoji:
+                role_name_to_apply = role_name
+                break  # note to Al1: at least this is on average n/2 (still O(n) though)
+        assert role_name_to_apply != '', 'role_name_to_apply should have a non-empty string value'
         # Adding the role
-        role = discord.utils.get(guild.roles, name=role_name)
+        print('hello 230947, role_name_to_apply:', role_name_to_apply)
+        print('role_name_to_apply', role_name_to_apply)
+        print('guild', guild)
+        print('guild.roles', guild.roles)
+        print()
+        role = discord.utils.get(guild.roles, name=role_name_to_apply)
+        print(role)
+        print(type(role))
+
         member = guild.get_member(payload.user_id)
 
         await member.add_roles(role, reason="Reaction role")
@@ -168,6 +178,10 @@ class Roles(commands.Cog):
         :param payload:
         :return:
         """
+
+        # Make sure that the bot is not reacting to itself
+        if payload.member.bot:
+            return
 
         # Check that role message has been created
         if self.role_message_id is None:
@@ -183,7 +197,8 @@ class Roles(commands.Cog):
             return
 
         # Check that emoji is within allowed
-        allowed_emojis = [data["emoji"] for data in self.allowed_roles.values()]
+
+        allowed_emojis = self.dict_of_role_to_emoji.values()
         if payload.emoji.name not in allowed_emojis:
             return
 
@@ -191,12 +206,13 @@ class Roles(commands.Cog):
 
         # Get role name
         role_name = None
-        for k, v in self.allowed_roles.items():
-            if v["emoji"] == payload.emoji.name:
-                role_name = k
+        for role_name, emoji in self.dict_of_role_to_emoji.items():
+            if payload.emoji.name == emoji:
+                role_name_to_apply = role_name
+                break
 
         # Removing a role
-        role = discord.utils.get(guild.roles, name=role_name)
+        role = discord.utils.get(guild.roles, name=role_name_to_apply)
         member = guild.get_member(payload.user_id)
         await member.remove_roles(role)
 
