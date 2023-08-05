@@ -1,9 +1,9 @@
-[DEV]
+[dev]
 Guild_id = Discord Guild ID
 Channel_id = Discord Channel ID
 User_id = Discord User ID
 
-[FEATURE_FLAGS]
+[featureflags]
 # Enable or disable features
 # 0 = disabled
 # 1 = enabled
