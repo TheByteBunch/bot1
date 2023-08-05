@@ -44,8 +44,11 @@ async def load_cogs() -> None:
     # Looping through all the files in the cogs folder
     cogs_dir = os.sep.join([this_file_path, 'cogs'])
     for filename in os.listdir(cogs_dir):
+
+        if filename.startswith('__'):
+            continue
         # Check if the file is a python file
-        if filename.endswith(".py"):
+        elif filename.endswith(".py"):
             # Get the name of the file
             feature_file_name = filename[:-3]
             # Check if the feature flag is set to 0 if so skip the file

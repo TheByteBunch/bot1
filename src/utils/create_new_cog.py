@@ -19,9 +19,15 @@ def create_cog_file(cog_name: str) -> None:
 from discord.ext import commands
 from discord import app_commands
 
+import logging
+
+from utils import basic_utils
 
 class {cog_name.capitalize()}(commands.Cog):
-
+    
+    # Configs
+    guild_id = basic_utils.get_guild_id()
+    
     def __init__(self, client):
         self.client = client
 

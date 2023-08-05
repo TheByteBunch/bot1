@@ -2,6 +2,8 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 
+import logging
+
 from utils import basic_utils
 
 
@@ -15,6 +17,7 @@ class Ping(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         print("Ping cog is ready")
+        logging.info("Ping cog is ready")
 
     @app_commands.command(name="ping", description="Returns the latency of the bot")
     @app_commands.guilds(guild_id)

@@ -6,7 +6,6 @@
 - Discord bot functions
 
 
-
 ## Overview
 This is a Discord bot for and by The Byte Bunch. It will be deployed in that Discord server.
 
@@ -16,17 +15,15 @@ This is a Discord bot for and by The Byte Bunch. It will be deployed in that Dis
   - A server to which you can invite this bot
   - Your bot should be in that server, and should have the following positions: read and write messages, manage roles.
 - clone this repo
-- create and activate virtual environment
-  - `python -m venv venv`
-  -  `source venv/bin/activate`
-- install dependencies
-  - `pip isntall -r requirements.txt`
+- create and activate virtual environment and install pip dependencies
 - Setup up credentials and configuration
   - Copy `.env.example` to `.env`
   - Edit `.env` to include your real Discord bot token
-  - Copy `config.ini` to `config.ini`
+  - Copy `config.ini.example` to `config.ini`
   - Edit `config.ini` to contain your Guild_id, Channel_id, and User_id
   - Edit `config.ini` to set feature flags to `1` for the features you would like to use
+- Run the bot
+  - `python src/main.py`
 
 ## Discord bot functions
 
