@@ -6,24 +6,28 @@ from utils import basic_utils
 
 import logging
 
+
 class Roles(commands.Cog):
     # Config
-    guild_id = basic_utils.get_guild_id()  # this doesn't generalize to multiple servers #todo maybe
+    guild_id = (
+        basic_utils.get_guild_id()
+    )  # this doesn't generalize to multiple servers #todo maybe
 
     def __init__(self, client: commands.Bot):
         self.client = client
         self.dict_of_role_to_emoji = dict()
         self.role_message_id = None
 
-
     @commands.Cog.listener()
     async def on_ready(self):
-        logging.info('Roles cog is ready')
+        logging.info("Roles cog is ready")
         print("Roles cog is ready")
 
     @app_commands.command(name="add_role", description="Add role for auto role message")
     @app_commands.guilds(guild_id)
-    async def add_role(self, interaction: discord.Interaction, role_name: str, role_emoji: str):
+    async def add_role(
+        self, interaction: discord.Interaction, role_name: str, role_emoji: str
+    ):
         """
         Add a role to the auto role message
         :param interaction:
@@ -46,13 +50,19 @@ class Roles(commands.Cog):
         if role and emoji:
             self.dict_of_role_to_emoji[role] = emoji
         else:
-            await interaction.response.send_message("Role or emoji not found", ephemeral=True)
+            await interaction.response.send_message(
+                "Role or emoji not found", ephemeral=True
+            )
             return
 
         # Send response
-        await interaction.response.send_message(f"Added role {role_name} with emoji {role_emoji}", ephemeral=True)
+        await interaction.response.send_message(
+            f"Added role {role_name} with emoji {role_emoji}", ephemeral=True
+        )
 
-    @app_commands.command(name="remove_role", description="Remove role for auto role message")
+    @app_commands.command(
+        name="remove_role", description="Remove role for auto role message"
+    )
     @app_commands.guilds(guild_id)
     async def remove_role(self, interaction: discord.Interaction, role_name: str):
         """
@@ -77,9 +87,13 @@ class Roles(commands.Cog):
             return
 
         # Send response
-        await interaction.response.send_message(f"Removed role {role_name}", ephemeral=True)
+        await interaction.response.send_message(
+            f"Removed role {role_name}", ephemeral=True
+        )
 
-    @app_commands.command(name="create_role_message", description="Creates a role message")
+    @app_commands.command(
+        name="create_role_message", description="Creates a role message"
+    )
     @app_commands.guilds(guild_id)
     async def create_roles_message(self, interaction: discord.Interaction):
         """
@@ -90,11 +104,15 @@ class Roles(commands.Cog):
         if interaction.guild.id != self.guild_id:
             return
         # Create message
-        await interaction.response.send_message("React to this message to get your roles!")
+        await interaction.response.send_message(
+            "React to this message to get your roles!"
+        )
 
         # Get latest message ID
         # todo: is there a more reliable way to do this?
-        message = await interaction.channel.fetch_message(interaction.channel.last_message_id)
+        message = await interaction.channel.fetch_message(
+            interaction.channel.last_message_id
+        )
 
         # Create embed
         embed = discord.Embed(title="React to this message to get your roles!")
@@ -151,12 +169,14 @@ class Roles(commands.Cog):
 
         # Get role name
         # role_name = None
-        role_name_to_apply = ''
+        role_name_to_apply = ""
         for role_name, emoji in self.dict_of_role_to_emoji.items():
             if payload.emoji.name == emoji:
                 role_name_to_apply = role_name
                 break  # note to Al1: at least this is on average n/2 (still O(n) though)
-        assert role_name_to_apply != '', 'role_name_to_apply should have a non-empty string value'
+        assert (
+            role_name_to_apply != ""
+        ), "role_name_to_apply should have a non-empty string value"
         # Adding the role
         role = discord.utils.get(guild.roles, name=role_name_to_apply)
         member = guild.get_member(payload.user_id)

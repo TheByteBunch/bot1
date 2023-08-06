@@ -15,7 +15,8 @@ def create_cog_file(cog_name: str) -> None:
     # Create the cog file
     with open(f"../cogs/{cog_name}.py", "w") as cog_file:
         # Write the default structure
-        cog_file.write(f"""import discord
+        cog_file.write(
+            f"""import discord
 from discord.ext import commands
 from discord import app_commands
 
@@ -24,10 +25,10 @@ import logging
 from utils import basic_utils
 
 class {cog_name.capitalize()}(commands.Cog):
-    
+
     # Configs
     guild_id = basic_utils.get_guild_id()
-    
+
     def __init__(self, client):
         self.client = client
 
@@ -37,7 +38,8 @@ class {cog_name.capitalize()}(commands.Cog):
 
 
 async def setup(client):
-    await client.add_cog({cog_name.capitalize()}(client))""")
+    await client.add_cog({cog_name.capitalize()}(client))"""
+        )
 
 
 def verify_name(cog_name: str) -> bool:
@@ -74,5 +76,5 @@ def main():
         create_cog_file(cog_name)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

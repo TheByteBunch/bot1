@@ -10,15 +10,15 @@ repo_root_dir_path = str(Path(this_file_path).resolve().parents[1])
 
 def parse_feature_flags():
     """
-       Parse feature flags from the config.ini file
-       :return:
+    Parse feature flags from the config.ini file
+    :return:
     """
 
     # Create config parser
     config = ConfigParser()
 
     # Read the config file
-    config_file_name = 'config.ini'
+    config_file_name = "config.ini"
     config_file_path = os.sep.join([repo_root_dir_path, config_file_name])
     config.read(config_file_path)
 
@@ -31,14 +31,15 @@ def parse_feature_flags():
 
 def get_user_id():
     config = ConfigParser()
-    config_file_name = 'config.ini'
+    config_file_name = "config.ini"
     config_file_path = os.sep.join([repo_root_dir_path, config_file_name])
     config.read(config_file_path)
     return int(config["dev"]["user_id"])
 
+
 def get_guild_id():
     config = ConfigParser()
-    config_file_name = 'config.ini'
+    config_file_name = "config.ini"
     config_file_path = os.sep.join([repo_root_dir_path, config_file_name])
     config.read(config_file_path)
     return int(config["dev"]["guild_id"])
@@ -50,7 +51,7 @@ def get_secret_token():
     :return:
     """
     load_dotenv()
-    return os.getenv('DISCORD_BOT_TOKEN')
+    return os.getenv("DISCORD_BOT_TOKEN")
 
 
 def debug_object_fields(obj):
@@ -65,5 +66,5 @@ def debug_object_fields(obj):
         print(field, getattr(obj, field))
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print(parse_feature_flags())

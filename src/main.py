@@ -9,7 +9,11 @@ from utils import basic_utils
 this_file_path = os.path.dirname(__file__)
 repo_root_dir_path = str(Path(this_file_path).resolve().parents[0])
 
-handler = logging.FileHandler(filename=os.sep.join([repo_root_dir_path, 'discord.log']), encoding='utf-8', mode='a')
+handler = logging.FileHandler(
+    filename=os.sep.join([repo_root_dir_path, "discord.log"]),
+    encoding="utf-8",
+    mode="a",
+)
 
 # Define intents
 intents = discord.Intents.default()
@@ -37,17 +41,20 @@ async def load_cogs() -> None:
     print("#" * 50)
     print(f"[INFO] Loading cogs")
     # Looping through all the files in the cogs folder
-    cogs_dir = os.sep.join([this_file_path, 'cogs'])
+    cogs_dir = os.sep.join([this_file_path, "cogs"])
     for filename in os.listdir(cogs_dir):
 
-        if filename.startswith('__'):
+        if filename.startswith("__"):
             continue
         # Check if the file is a python file
         elif filename.endswith(".py"):
             # Get the name of the file
             feature_file_name = filename[:-3]
             # Check if the feature flag is set to 0 if so skip the file
-            if feature_file_name in feature_flags and feature_flags[feature_file_name] == "0":
+            if (
+                feature_file_name in feature_flags
+                and feature_flags[feature_file_name] == "0"
+            ):
                 print(f"Skipping {filename}")
                 continue
             # Load the cog
