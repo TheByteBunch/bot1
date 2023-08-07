@@ -21,7 +21,9 @@ class Init(commands.Cog):
     async def sync(self, ctx: commands.Context):
         print("Syncing commands")
         if ctx.author.id == self.user_id:
-            synced_commands = await self.client.tree.sync(guild=discord.Object(id=self.guild))
+            synced_commands = await self.client.tree.sync(
+                guild=discord.Object(id=self.guild)
+            )
             await ctx.send(f"Synced {len(synced_commands)} commands", ephemeral=True)
         else:
             await ctx.send("You must be the owner to use this command!", ephemeral=True)

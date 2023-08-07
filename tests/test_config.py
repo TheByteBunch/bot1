@@ -4,11 +4,11 @@ from pathlib import Path
 from configparser import ConfigParser
 
 this_file_path = os.path.dirname(__file__)
-repo_root_dir_path = str(Path(this_file_path).resolve().parents[1])
+repo_root_dir_path = str(Path(this_file_path).resolve().parents[0])
 
 
 def test_config():
-    config_file_name = 'config.ini.example'
+    config_file_name = "config.ini.example"
     config_file_path = os.sep.join([repo_root_dir_path, config_file_name])
     assert os.path.exists(config_file_path) is True
 
@@ -16,7 +16,7 @@ def test_config():
 def test_config_content():
     try:
         config = ConfigParser()
-        config_file_name = 'config.ini.example'
+        config_file_name = "config.ini.example"
         config_file_path = os.sep.join([repo_root_dir_path, config_file_name])
         config.read(config_file_path)
 
