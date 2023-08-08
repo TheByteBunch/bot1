@@ -1,4 +1,6 @@
+[![GitHub Super-Linter](https://github.com/Al1babax/bot1/actions/workflows/linter.yml/badge.svg)](https://github.com/marketplace/actions/super-linter)
 # bot1
+test change
 
 # Table of Contents
 - Overview

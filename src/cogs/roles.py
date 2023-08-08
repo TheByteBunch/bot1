@@ -26,7 +26,7 @@ class Roles(commands.Cog):
     @app_commands.command(name="add_role", description="Add role for auto role message")
     @app_commands.guilds(guild_id)
     async def add_role(
-        self, interaction: discord.Interaction, role_name: str, role_emoji: str
+            self, interaction: discord.Interaction, role_name: str, role_emoji: str
     ):
         """
         Add a role to the auto role message
@@ -175,7 +175,7 @@ class Roles(commands.Cog):
                 role_name_to_apply = role_name
                 break  # note to Al1: at least this is on average n/2 (still O(n) though)
         assert (
-            role_name_to_apply != ""
+                role_name_to_apply != ""
         ), "role_name_to_apply should have a non-empty string value"
         # Adding the role
         role = discord.utils.get(guild.roles, name=role_name_to_apply)

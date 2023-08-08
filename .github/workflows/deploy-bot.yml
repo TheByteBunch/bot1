@@ -1,0 +1,76 @@
+name: Deploy to GCP
+
+on:
+  workflow_run:
+    workflows: ["Lint Code Base"]
+    types:
+      - completed
+
+jobs:
+  deploy:
+    name: Deploy to GCP
+    runs-on: self-hosted
+    defaults:
+        run:
+            working-directory: /home/samiviik7/dev
+
+    steps:
+      # Change cd
+      - name: Change directory
+        run: |
+          cd /home/samiviik7/dev
+
+      # Remove old files if exist
+      - name: Remove old files
+        run: |
+          rm -rf bot1
+          rm -rf venv
+
+      # Get code from repo
+      - name: Clone code
+        run: |
+          git clone https://github.com/Al1babax/bot1.git
+          cd bot1
+          git checkout linter-fixing 
+
+      # Make sure Python is installed
+      - name: Install python
+        run: |
+          sudo apt-get install python3.11 -y
+
+      # Install pip
+      - name: Install pip
+        run: |
+          sudo apt-get install python3-pip -y
+
+      # Make sure venv is installed
+      - name: Install venv
+        run: |
+          sudo apt-get install python3.11-venv -y
+
+      # Make virtual environment
+      - name: Make virtual environment
+        run: |
+          python3 -m venv venv
+          source venv/bin/activate
+
+      # Install dependencies
+      - name: Install dependencies
+        run: |
+          sh /home/samiviik7/configs/pip_install.sh
+
+      # Copy configs and env
+      - name: Copy configs and env
+        run: |
+          sh /home/samiviik7/configs/run.sh
+
+      # Run tests
+      - name: Test with pytest
+        working-directory: /home/samiviik7/dev/bot1
+        run: |
+          sh /home/samiviik7/configs/test.sh
+
+      # Restart services
+      - name: Restart services
+        run: |
+          sh /home/samiviik7/configs/restart.sh
