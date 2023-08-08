@@ -1,10 +1,10 @@
-import discord
-from discord.ext import commands
-from discord import app_commands
-
-from utils import basic_utils
-
 import logging
+from typing import Dict
+
+import discord
+from discord import app_commands
+from discord.ext import commands
+from utils import basic_utils
 
 
 class Roles(commands.Cog):
@@ -15,7 +15,7 @@ class Roles(commands.Cog):
 
     def __init__(self, client: commands.Bot):
         self.client = client
-        self.dict_of_role_to_emoji = dict()
+        self.dict_of_role_to_emoji: Dict[str, str] = {}
         self.role_message_id = None
 
     @commands.Cog.listener()
@@ -26,7 +26,7 @@ class Roles(commands.Cog):
     @app_commands.command(name="add_role", description="Add role for auto role message")
     @app_commands.guilds(guild_id)
     async def add_role(
-            self, interaction: discord.Interaction, role_name: str, role_emoji: str
+        self, interaction: discord.Interaction, role_name: str, role_emoji: str
     ):
         """
         Add a role to the auto role message
@@ -175,7 +175,7 @@ class Roles(commands.Cog):
                 role_name_to_apply = role_name
                 break  # note to Al1: at least this is on average n/2 (still O(n) though)
         assert (
-                role_name_to_apply != ""
+            role_name_to_apply != ""
         ), "role_name_to_apply should have a non-empty string value"
         # Adding the role
         role = discord.utils.get(guild.roles, name=role_name_to_apply)

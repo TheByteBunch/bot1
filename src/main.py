@@ -1,9 +1,10 @@
-import os
 import asyncio
 import logging
+import os
+from pathlib import Path
+
 import discord
 from discord.ext import commands
-from pathlib import Path
 from utils import basic_utils
 
 this_file_path = os.path.dirname(__file__)
@@ -39,11 +40,10 @@ async def load_cogs() -> None:
     feature_flags = basic_utils.parse_feature_flags()
 
     print("#" * 50)
-    print(f"[INFO] Loading cogs")
+    print("[INFO] Loading cogs")
     # Looping through all the files in the cogs folder
     cogs_dir = os.sep.join([this_file_path, "cogs"])
     for filename in os.listdir(cogs_dir):
-
         if filename.startswith("__"):
             continue
         # Check if the file is a python file
@@ -52,8 +52,8 @@ async def load_cogs() -> None:
             feature_file_name = filename[:-3]
             # Check if the feature flag is set to 0 if so skip the file
             if (
-                    feature_file_name in feature_flags
-                    and feature_flags[feature_file_name] == "0"
+                feature_file_name in feature_flags
+                and feature_flags[feature_file_name] == "0"
             ):
                 print(f"Skipping {filename}")
                 continue

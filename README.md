@@ -1,21 +1,23 @@
-[![GitHub Super-Linter](https://github.com/Al1babax/bot1/actions/workflows/linter.yml/badge.svg)](https://github.com/marketplace/actions/super-linter)
 # bot1
+[![GitHub Super-Linter](https://github.com/Al1babax/bot1/actions/workflows/linter.yml/badge.svg)](https://github.com/marketplace/actions/super-linter)
 
-# Table of Contents
+## Table of Contents
+
 - Overview
 - Setup instructions
 - Discord bot functions
 
-
 ## Overview
+
 This is a Discord bot for and by The Byte Bunch. It will be deployed in that Discord server.
 
 ## Setup Instructions
+
 - Prerequisites
   - A Discord Bot, and a token for this bot
   - A server to which you can invite this bot
   - Your bot should be in that server, and should have the following positions: read and write messages, manage roles.
-- clone this repo
+- clone this repository
 - create and activate virtual environment and install pip dependencies
 - Setup up credentials and configuration
   - Copy `.env.example` to `.env`
@@ -28,15 +30,13 @@ This is a Discord bot for and by The Byte Bunch. It will be deployed in that Dis
 - Running the tests:
   - `python -m pytest tests/`
   - Note: this must be run from the root directory of the repository.
+
 ## Discord bot functions
-
-
 
 1. Role bot
 2. Table bot
 3. Event bot
 4. Git bot
-
 
 ## Role bot
 
@@ -60,25 +60,3 @@ This bot is used to manage roles on the server. It can add and remove roles from
 - [x] Edit role message
 - [x] Make code more clean with comments and docstrings
 - [x] Move code to separate files
-
-
-## Table bot
-
-### Description
-
-This bot is used to manage tables on the server. It can create new tables and add users to them with information.
-
-### Features
-
-- Admin can call the bot to create new table (with `/create_member_table`)
-- Admin can add users info to the table (with `/add_body`)
-- Admin can add headers to the table (with `/remove_header`)
-
-### TODO
-
-- [x] Create new table
-- [x] Add user info to table
-- [x] Add headers to table
-- [ ] Remove user from table
-- [ ] Remove headers from table
-- [ ] Multiple tables
