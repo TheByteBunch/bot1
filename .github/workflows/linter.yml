@@ -9,10 +9,8 @@ name: Lint Code Base
 # Start the job on all push #
 #############################
 on:
-  workflow_run:
-    workflows: ["Pytest Code Base"]
-    types:
-      - completed
+  pull_request:
+    branches: [ main, dev ]
 
 ###############
 # Set the Job #

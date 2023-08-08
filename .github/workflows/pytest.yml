@@ -2,8 +2,6 @@
 name: Pytest Code Base
 
 on:
-  push:
-    branches: [ main, dev ]
   pull_request:
     branches: [ main, dev ]
 
