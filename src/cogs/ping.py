@@ -21,7 +21,7 @@ class Ping(commands.Cog):
     @app_commands.command(name="ping", description="Returns the latency of the bot")
     @app_commands.guilds(guild_id)
     async def ping(self, interactions: discord.Interaction):
-        await interactions.response.send_message(f"Pong!")
+        await interactions.response.send_message("Pong!")
 
 
 async def setup(client):
