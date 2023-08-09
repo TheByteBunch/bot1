@@ -1,7 +1,8 @@
-import pytest
 import os
-from pathlib import Path
 from configparser import ConfigParser
+from pathlib import Path
+
+import pytest
 
 this_file_path = os.path.dirname(__file__)
 repo_root_dir_path = str(Path(this_file_path).resolve().parents[0])

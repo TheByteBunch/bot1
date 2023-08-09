@@ -1,8 +1,8 @@
-from dotenv import load_dotenv
 import os
 from configparser import ConfigParser
 from pathlib import Path
 
+from dotenv import load_dotenv
 
 this_file_path = os.path.dirname(__file__)
 repo_root_dir_path = str(Path(this_file_path).resolve().parents[1])

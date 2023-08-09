@@ -3,7 +3,6 @@ Script that will create new python file with default cog structure
 """
 
 import os
-import sys
 
 
 def create_cog_file(cog_name: str) -> None:
