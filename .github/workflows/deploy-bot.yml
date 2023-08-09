@@ -28,7 +28,7 @@ jobs:
       # Get code from repo
       - name: Clone code
         run: |
-          git clone https://github.com/Al1babax/bot1.git
+          git clone https://github.com/TheByteBunch/bot1.git
           cd bot1
           git checkout dev
 
