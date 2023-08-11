@@ -21,7 +21,6 @@ def get_random_line():
     random.shuffle(repos)
     content_files = []
     while not content_files:
-
         repo = repos.pop()
         contents = repo.get_contents("")
         while len(contents) > 0:
