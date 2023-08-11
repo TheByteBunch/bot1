@@ -48,7 +48,7 @@ def get_random_line():
     return chosen_line
 
 
-class CodeQuoteCog(commands.Cog, name="CodeQuoteCog"):
+class CodeQuoteCog(commands.Cog):
     guild_id = basic_utils.get_guild_id()
 
     @app_commands.command(name="code-quote", description="Quotes code")
