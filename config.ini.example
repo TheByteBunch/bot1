@@ -7,7 +7,7 @@ user_id = Discord User ID
 # Enable or disable features
 # 0 = disabled
 # 1 = enabled
-init = 1
-ping = 0
-roles = 0
-tablebot = 0
+init_bot = 1
+ping = 1
+roles = 1
+code_quote = 1
