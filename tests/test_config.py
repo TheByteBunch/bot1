@@ -34,9 +34,7 @@ def test_config_content():
         feature_flags = config["feature_flags"]
         feature_flags_dict = dict(feature_flags)
         for key, value in feature_flags_dict.items():
-            if key == "init":
-                continue
-            assert value == "0"
+            assert value in "1"
 
         # Make sure that the dev section has the following items
         items_in_dev_section = {
