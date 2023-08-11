@@ -1,12 +1,11 @@
 import os
+import random
 
 import discord
-from github import Github
-from github import Auth
-from discord.ext import commands
 from discord import app_commands
-import random
-from dotenv import load_dotenv, find_dotenv
+from discord.ext import commands
+from dotenv import find_dotenv, load_dotenv
+from github import Auth, Github
 from utils import basic_utils
 
 load_dotenv(find_dotenv())
