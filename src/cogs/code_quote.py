@@ -50,8 +50,8 @@ class CodeQuoteCog(commands.Cog):
     @app_commands.command(name="code-quote", description="Quotes code")
     async def ping(self, interactions: discord.Interaction):
         await interactions.message.channel.send(
-            f"I'm going to fetch a random line of code from one of our repositories. "
-            f"Will you be able to guess what it is?"
+            "I'm going to fetch a random line of code from one of our repositories. "
+            "Will you be able to guess what it is?"
         )
         await interactions.message.channel.send(f"Code: \n{get_random_line()}")
 
